@@ -1,0 +1,2 @@
+//copy-pasta this code into the app's webview execution onpageload so it will call bmk.js
+javascript:(function(){document.body.appendChild(document.createElement('script')).src='https://raw.githubusercontent.com/Aetheus/bookmarklet-fab/master/bmk.js';})();
