@@ -6,9 +6,14 @@
 			var jqscript = document.createElement("script");
 			jqscript.src = "//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js";
 			document.head.appendChild(jqscript);
+			alert("jQuery loaded from external source.");
 		}
+
+		if ( !($.mobile) ) {
+   			alert("jQuery mobile not found. Loading jQuery mobile . . .");
+   			
+		} 
 		
-		alert("jQuery loaded.");
 
 		/* Styles*/
 		$("<style type='text/css'> .highlighted{ border: 2px solid yellow;} #FabulaSysMenu{ position:fixed; top:10px; right:10px; width:500px; border: 2px solid black; background-color:white; font-size:large; text-align:center; z-index:9999; } </style>").appendTo("head");
@@ -156,29 +161,32 @@
 					e.stopPropagation();
         		}
 		}
-		document.addEventListener('click', FabulaSysFunction,false);
+		$(document).on("click", "*", function (ev){
+			FabulaSysFunction(ev);
+		});
+		/*document.addEventListener('click', FabulaSysFunction,false);*/
 		/*no need to pass event to FabulaSelectoFunction as param when adding listener since jscript automatically passes event to the function as first arg */
 
-		$("#FabulaSysMenu").click(function(ev){
+		$("#FabulaSysMenu").click(function (ev){
 			ev.preventDefault();
 			ev.stopPropagation();
 		});
 
-		$("#FabulaSysTitleButton").click(function(ev){
+		$("#FabulaSysTitleButton").click(function (ev){
 			ev.preventDefault();
 			ev.stopPropagation();
 			currentFabulaSysFocus = "title";
 			alert("Selecting for Title");
 		});
 
-		$("#FabulaSysLinkButton").click(function(ev){
+		$("#FabulaSysLinkButton").click(function (ev){
 			ev.preventDefault();
 			ev.stopPropagation();
 			currentFabulaSysFocus = "link";
 			alert("Selecting for Link");
 		});
 
-		$("#FabulaSysDescriptionButton").click(function(ev){
+		$("#FabulaSysDescriptionButton").click(function (ev){
 			ev.preventDefault();
 			ev.stopPropagation();
 			currentFabulaSysFocus = "desc";
