@@ -39,15 +39,7 @@
 		$("body").append("<div id='FabulaSysMenu'> <input id='FabulaSysTitleButton' type='button' value='Title' /><p id='FabulaSysTitleDisplay'></p> <input id='FabulaSysLinkButton' type='button' value='Link' /><p id='FabulaSysLinkDisplay'></p>  <input id='FabulaSysDescriptionButton' type='button' value='Description' /><p id='FabulaSysDescriptionDisplay'></p> <p id='FabulaSysAncestorDisplay'></p> <input id='FabulaSubmitButton' type='button' value='Submit to Web' /> </div>");
 
 
-		/*delegate all click events to vclick so this works smoothly on mobile devices*/
-		if ($.mobile){
-			$.fn.click = function(listener) {
-   				return this.each(function() {
-   					var $this = $( this );
-   					$this.on(‘vclick’, listener);
-   				});
-			};
-		}
+
 
 		/*utility function to get common ancestor of link, description and title*/
 		/*credit to a stackoverflow page*/
@@ -160,7 +152,7 @@
 					return false;
 				}
 
-				e.preventDefault();
+				/*e.preventDefault();*/
 
         		var tempSelectedEle = $(e.target);
 
@@ -173,32 +165,33 @@
 					e.stopPropagation();
         		}
 		}
-		$(document).on("click", "*", function (ev){
+		$(document).on("click vclick", "*", function (ev){
+			ev.preventDefault();
 			FabulaSysFunction(ev);
 		});
 		/*document.addEventListener('click', FabulaSysFunction,false);*/
 		/*no need to pass event to FabulaSelectoFunction as param when adding listener since jscript automatically passes event to the function as first arg */
 
-		$("#FabulaSysMenu").click(function (ev){
+		$("#FabulaSysMenu").on("click vclick", function (ev){
 			ev.preventDefault();
 			ev.stopPropagation();
 		});
 
-		$("#FabulaSysTitleButton").click(function (ev){
+		$("#FabulaSysTitleButton").on("click vclick", function (ev){
 			ev.preventDefault();
 			ev.stopPropagation();
 			currentFabulaSysFocus = "title";
 			alert("Selecting for Title");
 		});
 
-		$("#FabulaSysLinkButton").click(function (ev){
+		$("#FabulaSysLinkButton").on("click vclick", function (ev){
 			ev.preventDefault();
 			ev.stopPropagation();
 			currentFabulaSysFocus = "link";
 			alert("Selecting for Link");
 		});
 
-		$("#FabulaSysDescriptionButton").click(function (ev){
+		$("#FabulaSysDescriptionButton").on("click vclick", function (ev){
 			ev.preventDefault();
 			ev.stopPropagation();
 			currentFabulaSysFocus = "desc";
@@ -206,7 +199,9 @@
 		});
 
 
-		$("#FabulaSubmitButton").click(function(){
+		$("#FabulaSubmitButton").on("click vclick", function(ev){
+		    ev.preventDefault();
+
 		    $.post("https://fabula-node.herokuapp.com/supervisordemo",
 		    {
 		        title: FabulaSysTitleSelector,
