@@ -8,10 +8,12 @@
 			document.head.appendChild(jqscript);
 			alert("jQuery loaded from external source.");
 		}
-
 		if ( !($.mobile) ) {
    			alert("jQuery mobile not found. Loading jQuery mobile . . .");
-   			
+			var jqscript = document.createElement("script");
+			jqscript.src = "https://raw.githubusercontent.com/Aetheus/bookmarklet-fab/master/jquery.mobile.custom.min.js";
+			document.head.appendChild(jqscript);
+   			alert("jQuery mobile loaded from external source.");
 		} 
 		
 
@@ -36,6 +38,16 @@
 		/*create a floating "menu"*/
 		$("body").append("<div id='FabulaSysMenu'> <input id='FabulaSysTitleButton' type='button' value='Title' /><p id='FabulaSysTitleDisplay'></p> <input id='FabulaSysLinkButton' type='button' value='Link' /><p id='FabulaSysLinkDisplay'></p>  <input id='FabulaSysDescriptionButton' type='button' value='Description' /><p id='FabulaSysDescriptionDisplay'></p> <p id='FabulaSysAncestorDisplay'></p> <input id='FabulaSubmitButton' type='button' value='Submit to Web' /> </div>");
 
+
+		/*delegate all click events to vclick so this works smoothly on mobile devices*/
+		if ($.mobile){
+			$.fn.click = function(listener) {
+   				return this.each(function() {
+   					var $this = $( this );
+   					$this.on(‘vclick’, listener);
+   				});
+			};
+		}
 
 		/*utility function to get common ancestor of link, description and title*/
 		/*credit to a stackoverflow page*/
