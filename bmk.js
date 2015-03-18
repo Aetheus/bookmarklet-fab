@@ -1,6 +1,9 @@
 (
 	function(){		
 		/*load jquery if it isn't already loaded*/
+		/*	due to site policies, these won't on some sites. Thankfully, most sites have jQuery in-page anyway. For the rest, 
+		  	try to find a best-fit solution
+		 */
 		if(typeof jQuery === 'undefined'){
 			alert("jQuery not found. Loading jQuery . . .");
 			var jqscript = document.createElement("script");
@@ -15,6 +18,8 @@
 			document.head.appendChild(jqscript);
    			alert("jQuery mobile loaded from external source.");
 		} 
+
+		
 		
 
 		/* Styles*/
@@ -37,7 +42,6 @@
 		
 		/*create a floating "menu"*/
 		$("body").append("<div id='FabulaSysMenu'> <input id='FabulaSysTitleButton' type='button' value='Title' /><p id='FabulaSysTitleDisplay'></p> <input id='FabulaSysLinkButton' type='button' value='Link' /><p id='FabulaSysLinkDisplay'></p>  <input id='FabulaSysDescriptionButton' type='button' value='Description' /><p id='FabulaSysDescriptionDisplay'></p> <p id='FabulaSysAncestorDisplay'></p> <input id='FabulaSubmitButton' type='button' value='Submit to Web' /> </div>");
-
 
 
 
