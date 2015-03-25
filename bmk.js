@@ -47,7 +47,7 @@
 
 		/*utility function to get common ancestor of link, description and title*/
 		/*credit to a stackoverflow page*/
-		function getCommonAncestor(a, b, c){
+		function getCommonAncestorOld(a, b, c){
 			$parentsa = $(a).parents();
 			$parentsb = $(b).parents();
 			$parentsc = $(c).parents();
@@ -82,6 +82,29 @@
 			}
 		}		
 
+
+		function getCommonAncestor(argsArray){
+			var qualifiedArray = [];
+
+			for (var i=0; i<argsArray.length; i++){
+				if ( $(argsArray[i]).parents().length != 0 ){
+					qualifiedArray[qualifiedArray.length] = $(argsArray[i]);
+				}
+			}
+
+			var common = null;
+			if(qualifiedArray.length == 1){
+				common = qualifiedArray.parents().first();
+			}else if(qualifiedArray.length == 0){
+				common = null;
+			}else{
+				common =  qualifiedArray[0].parents().has(qualifiedArray[1]);
+				if (qualifiedArray.length >2 ){ 
+					common = common.has(qualifiedArray[2]).first(); }				
+			}
+
+			return common;
+		}
 
 		/*utility function to expand relative url to fully qualified url using DOM trickery*/
 		/*credit to a blog post: https://grack.com/blog/2009/11/17/absolutizing-url-in-javascript/*/
@@ -137,7 +160,7 @@
 			} 
 
 			
-			FabulaSysAncestor = getCommonAncestor(FabulaSysTitle,FabulaSysLink,FabulaSysDescription);
+			FabulaSysAncestor = getCommonAncestor([FabulaSysTitle,FabulaSysLink,FabulaSysDescription]);
 			if(FabulaSysAncestor != null){
 				FabulaSysAncestorSelector = getSelectorText(FabulaSysAncestor);
 				$("#FabulaSysAncestorDisplay").text("Common Ancestors: " + FabulaSysAncestorSelector);
