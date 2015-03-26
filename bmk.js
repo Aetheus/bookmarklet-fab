@@ -94,7 +94,7 @@
 
 			var common = null;
 			if(qualifiedArray.length == 1){
-				common = qualifiedArray.parents().first();
+				common = qualifiedArray[0].parents().first();
 			}else if(qualifiedArray.length == 0){
 				common = null;
 			}else{
@@ -226,20 +226,52 @@
 		});
 
 
-		$("#FabulaSubmitButton").on("click vclick", function(ev){
+		$("#FabulaSubmitButton").on("click", function(ev){
 		    ev.preventDefault();
-
-		    $.post("https://fabula-node.herokuapp.com/supervisordemo",
+		    alert("called");
+		    /*$.post("https:/fabula-node.herokuapp.com/supervisordemo/hello",
 		    {
 		        title: FabulaSysTitleSelector,
 		        link: FabulaSysLinkSelector,
-		        description: encodeURIComponent(FabulaSysDescriptionSelector),
-		        ancestor: encodeURIComponent(FabulaSysAncestor),
-		        site: document.URL
+		        description: FabulaSysDescriptionSelector,
+		        ancestor: FabulaSysAncestor,
+		        site: encodeURIComponent(document.URL)
 		    },
 		    function(data, status){
 		        alert("Data: " + data + "\nStatus: " + status);
+		    });*/
+
+		 	alert("title selector: " + FabulaSysTitleSelector);
+			alert("link selector: " + FabulaSysLinkSelector);
+			alert("desc selector: " + FabulaSysDescriptionSelector);
+			alert("ancestor: " + FabulaSysAncestorSelector);
+			alert("url encoded: " + encodeURIComponent(document.URL));
+
+		    $.ajax({
+		    	method: "GET",
+  				url: "https://fabula-node.herokuapp.com/supervisordemo",
+  				data: {
+		        	title: FabulaSysTitleSelector,
+		        	link: FabulaSysLinkSelector,
+		        	description: FabulaSysDescriptionSelector,
+		        	ancestor: FabulaSysAncestorSelector,
+		        	site: document.URL
+		    	},
+				xhrFields: {
+				      withCredentials:true
+				},
+		    	beforeSend : function ( jqXHR, settings){
+		    		/*jqXHR.withCredentials = true;*/
+		    		alert(settings);
+		    	},
+		    	complete : function(){
+        			alert(this.url);
+    			},
+  				success: function(data, status){
+		        	alert("Data: " + data + "\nStatus: " + status);
+		    	}
 		    });
+		    alert("we got out");
 		});
 		
 
