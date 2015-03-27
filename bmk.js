@@ -33,6 +33,7 @@
 		var FabulaSysLink= $();
 		var FabulaSysDescription= $();
 		var FabulaSysAncestor = $();
+		var	FabulaSysImageLink = null;
 		var currentFabulaSysFocus = "title";
 
 		var FabulaSysTitleSelector = null;
@@ -41,47 +42,13 @@
 		var FabulaSysAncestorSelector = null;
 
 		
-		/*create a floating "menu"*/
-		$("body").append("<div id='FabulaSysMenu'> <input id='FabulaSysTitleButton' type='button' value='Title' /><p id='FabulaSysTitleDisplay'></p> <input id='FabulaSysLinkButton' type='button' value='Link' /><p id='FabulaSysLinkDisplay'></p>  <input id='FabulaSysDescriptionButton' type='button' value='Description' /><p id='FabulaSysDescriptionDisplay'></p> <p id='FabulaSysAncestorDisplay'></p> <input id='FabulaSubmitButton' type='button' value='Submit to Web' /> </div>");
+		var	FabulaSysImageLinkSelector = null;
+		var	FabulaSysIsCustom = null;
+		var	FabulaSysChannelName = null;
 
-
-
-		/*utility function to get common ancestor of link, description and title*/
-		/*credit to a stackoverflow page*/
-		function getCommonAncestorOld(a, b, c){
-			$parentsa = $(a).parents();
-			$parentsb = $(b).parents();
-			$parentsc = $(c).parents();
 		
-			var found = null;
-			
-			/*the calls to return false in the callbacks to "each" are meant to "break" the callbacks early when match is found*/
-			$parentsa.each(function() {
-				var thisa = this;
-				
-				$parentsb.each(function() {
-				    if (thisa == this){
-				        var thisb = this;
-
-				        $parentsc.each(function(){
-				        	if (thisb == this);
-				        	found = this;
-				        	return false;
-				        });
-
-				        if (found) return false;
-				    }
-				});
-				
-				if (found) return false;
-		    });
-			
-			if (found != null){
-				return $(found);
-			}else{
-				return null;
-			}
-		}		
+		/*create a floating "menu"*/
+		$("body").append("<div id='FabulaSysMenu'> <input id='FabulaSysChannelName' type='text' value='Enter Channel Name' /> <br /><input id='FabulaSysTitleButton' type='button' value='Title' /><p id='FabulaSysTitleDisplay'></p> <input id='FabulaSysLinkButton' type='button' value='Link' /><p id='FabulaSysLinkDisplay'></p>  <input id='FabulaSysDescriptionButton' type='button' value='Description' /><p id='FabulaSysDescriptionDisplay'></p> <input id='FabulaSysImageLinkButton' type='button' value='Image Link' /><p id='FabulaSysImageLinkDisplay'></p> <input id='FabulaSysIsCustomCheckbox' type='checkbox' checked='checked' /> Is Custom RSS <br /><p id='FabulaSysAncestorDisplay'></p> <input id='FabulaSubmitButton' type='button' value='Submit to Web' /> </div>");
 
 
 		function getCommonAncestor(argsArray){
@@ -154,11 +121,16 @@
 				FabulaSysLinkSelector = getSelectorText(jqObj);
 				var fullURL = makeQualified(FabulaSysLink.attr("href"));
 				$("#FabulaSysLinkDisplay").text(fullURL + " " + FabulaSysLinkSelector);
-			}else{
+			}else if (descOfObj === "desc"){
 				FabulaSysDescription = jqObj;
 				FabulaSysDescriptionSelector = getSelectorText(jqObj);
 				$("#FabulaSysDescriptionDisplay").text(FabulaSysDescription.text() + " " + FabulaSysDescriptionSelector);
-			} 
+			}else if (descOfObj === "imagelink"){
+				FabulaSysImageLink = jqObj;
+				FabulaSysImageLinkSelector= getSelectorText(jqObj);
+				var fullURL = makeQualified(FabulaSysImageLink.attr("src"));
+				$("#FabulaSysImageLinkDisplay").text(fullURL+ " " + FabulaSysImageLinkSelector);
+			}
 
 			
 			FabulaSysAncestor = getCommonAncestor([FabulaSysTitle,FabulaSysLink,FabulaSysDescription]);
@@ -181,10 +153,9 @@
 				}
 
 				/*e.preventDefault();*/
+				/*tempSelectedEle.toggleClass("highlighted");*/
 
         		var tempSelectedEle = $(e.target);
-
-        		/*tempSelectedEle.toggleClass("highlighted");*/
 
         		setFabulaSysMenu(tempSelectedEle,currentFabulaSysFocus);
 
@@ -193,7 +164,13 @@
 					e.stopPropagation();
         		}
 		}
-		$(document).on("click vclick", "*", function (ev){
+
+		$(document).on("click vclick", ":not([id^=FabulaSys])", function (ev){
+
+			if($(ev.target).closest('[id^=FabulaSys]').length > 0) {
+				return; /*don't return false; it messes up the checkbox*/
+    		}
+
 			ev.preventDefault();
 			FabulaSysFunction(ev);
 		});
@@ -201,8 +178,8 @@
 		/*no need to pass event to FabulaSelectoFunction as param when adding listener since jscript automatically passes event to the function as first arg */
 
 		$("#FabulaSysMenu").on("click vclick", function (ev){
-			ev.preventDefault();
-			ev.stopPropagation();
+			/*ev.preventDefault();
+			ev.stopPropagation();*/
 		});
 
 		$("#FabulaSysTitleButton").on("click vclick", function (ev){
@@ -227,20 +204,27 @@
 		});
 
 
+		$("#FabulaSysImageLinkButton").on("click vclick", function (ev){
+			ev.preventDefault();
+			ev.stopPropagation();
+			currentFabulaSysFocus = "imagelink";
+			alert("Selecting for Image");
+		});
+
+
+		$("#FabulaSysIsCustomCheckbox").change(function (){
+			FabulaSysIsCustom = $(this).is(':checked');
+			alert("IsCustomValue switched to: " + FabulaSysIsCustom);
+		});
+
+		$('#FabulaSysChannelName').on('input propertychange paste', function (){
+    		FabulaSysChannelName = $(this).val();
+		});
+
+
+
 		$("#FabulaSubmitButton").on("click", function(ev){
 		    ev.preventDefault();
-		    alert("called");
-		    /*$.post("https:/fabula-node.herokuapp.com/supervisordemo/hello",
-		    {
-		        title: FabulaSysTitleSelector,
-		        link: FabulaSysLinkSelector,
-		        description: FabulaSysDescriptionSelector,
-		        ancestor: FabulaSysAncestor,
-		        site: encodeURIComponent(document.URL)
-		    },
-		    function(data, status){
-		        alert("Data: " + data + "\nStatus: " + status);
-		    });*/
 
 		 	alert("title selector: " + FabulaSysTitleSelector);
 			alert("link selector: " + FabulaSysLinkSelector);
@@ -256,6 +240,9 @@
 		        	link: FabulaSysLinkSelector,
 		        	description: FabulaSysDescriptionSelector,
 		        	ancestor: FabulaSysAncestorSelector,
+		        	channelname : FabulaSysChannelName,
+					imagelink : FabulaSysImageLinkSelector,
+					iscustom : FabulaSysIsCustom,
 		        	site: document.URL
 		    	},
 				xhrFields: {
