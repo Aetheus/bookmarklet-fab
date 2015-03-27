@@ -1,4 +1,5 @@
-
+(
+/*window.addEventListener("load", */
 	function(){		
 		/*load jquery if it isn't already loaded*/
 		/*	due to site policies, these won't on some sites. Thankfully, most sites have jQuery in-page anyway. For the rest, 
@@ -286,3 +287,5 @@
 		/* message to check we reached the end of script without major problems */
 		alert("Fabula plugin succesfully loaded");
 	}
+/*, true);*/
+)();
