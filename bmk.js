@@ -43,7 +43,7 @@
 
 		
 		var	FabulaSysImageLinkSelector = null;
-		var	FabulaSysIsCustom = null;
+		var	FabulaSysIsCustom = true;
 		var	FabulaSysChannelName = null;
 
 		
