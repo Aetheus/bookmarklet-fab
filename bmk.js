@@ -231,10 +231,15 @@
 			alert("desc selector: " + FabulaSysDescriptionSelector);
 			alert("ancestor: " + FabulaSysAncestorSelector);
 			alert("url encoded: " + encodeURIComponent(document.URL));
+			alert("channelname: " + FabulaSysChannelName);
+			alert("imagelink: " + FabulaSysImageLinkSelector);
+			alert("iscustom: " + FabulaSysIsCustom);
 
 		    $.ajax({
-		    	method: "GET",
-  				url: "https://fabula-node.herokuapp.com/supervisordemo",
+		    	/*url: "https://fabula-node.herokuapp.com/supervisordemo",
+		    	  method: "GET",*/
+		    	method: "POST",
+		    	url: "https://fabula-node.herokuapp.com/subscribe",
   				data: {
 		        	title: FabulaSysTitleSelector,
 		        	link: FabulaSysLinkSelector,
