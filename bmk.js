@@ -214,7 +214,6 @@
 
 		$("#FabulaSysIsCustomCheckbox").change(function (){
 			FabulaSysIsCustom = $(this).is(':checked');
-			alert("IsCustomValue switched to: " + FabulaSysIsCustom);
 		});
 
 		$('#FabulaSysChannelName').on('input propertychange paste', function (){
