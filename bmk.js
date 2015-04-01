@@ -41,7 +41,6 @@
 		var FabulaSysDescriptionSelector = null;
 		var FabulaSysAncestorSelector = null;
 
-		
 		var	FabulaSysImageLinkSelector = null;
 		var	FabulaSysIsCustom = true;
 		var	FabulaSysChannelName = null;
