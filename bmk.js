@@ -42,8 +42,11 @@
 		var FabulaSysAncestorSelector = null;
 
 		var	FabulaSysImageLinkSelector = null;
+		FabulaSysImageLinkSelector = null;
 		var	FabulaSysIsCustom = true;
+		FabulaSysIsCustom = true;
 		var	FabulaSysChannelName = null;
+		FabulaSysChannelName = null;
 
 		
 		/*create a floating "menu"*/
@@ -224,28 +227,19 @@
 		$("#FabulaSubmitButton").on("click", function(ev){
 		    ev.preventDefault();
 
-		 	alert("title selector: " + FabulaSysTitleSelector);
-			alert("link selector: " + FabulaSysLinkSelector);
-			alert("desc selector: " + FabulaSysDescriptionSelector);
-			alert("ancestor: " + FabulaSysAncestorSelector);
-			alert("url encoded: " + encodeURIComponent(document.URL));
-			alert("channelname: " + FabulaSysChannelName);
-			alert("imagelink: " + FabulaSysImageLinkSelector);
-			alert("iscustom: " + FabulaSysIsCustom);
-
 		    $.ajax({
 		    	/*url: "https://fabula-node.herokuapp.com/supervisordemo",
 		    	  method: "GET",*/
 		    	method: "POST",
 		    	url: "https://fabula-node.herokuapp.com/subscribe",
   				data: {
-		        	title: FabulaSysTitleSelector,
-		        	link: FabulaSysLinkSelector,
-		        	description: FabulaSysDescriptionSelector,
-		        	ancestor: FabulaSysAncestorSelector,
-		        	channelname : FabulaSysChannelName,
-					imagelink : FabulaSysImageLinkSelector,
-					iscustom : FabulaSysIsCustom,
+		        	title: FabulaSysTitleSelector?FabulaSysTitleSelector:null,
+		        	link: FabulaSysLinkSelector?FabulaSysLinkSelector:null,
+		        	description: FabulaSysDescriptionSelector?FabulaSysDescriptionSelector:null,
+		        	ancestor: FabulaSysAncestorSelector?FabulaSysAncestorSelector:null,
+		        	channelname : FabulaSysChannelName?FabulaSysChannelName:null,
+					imagelink : FabulaSysImageLinkSelector?FabulaSysImageLinkSelector:null,
+					iscustom : FabulaSysIsCustom?FabulaSysIsCustom:null,
 		        	site: document.URL
 		    	},
 				xhrFields: {
