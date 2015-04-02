@@ -113,7 +113,6 @@
 		/*jqObj will be the jquery object we're passing. 
 		  desc of object will be either "title", "link" or "description" */
 		function setFabulaSysMenu(jqObj, descOfObj){ 
-
 			if(descOfObj === "title"){
 				FabulaSysTitle = jqObj;
 				FabulaSysTitleSelector = getSelectorText(jqObj);
