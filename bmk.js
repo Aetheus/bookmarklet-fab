@@ -1,3 +1,5 @@
+var username = "superuser";
+var password = "superuser";
 (
 /*window.addEventListener("load", */
 	function(){		
@@ -20,8 +22,7 @@
    			alert("jQuery mobile loaded from external source.");
 		} 
 
-		
-		
+		alert(username + password);
 
 		/* Styles*/
 		$("<style type='text/css'> .highlighted{ border: 2px solid yellow;} #FabulaSysMenu{ position:fixed; top:10px; right:10px; width:500px; border: 2px solid black; background-color:white; font-size:large; text-align:center; z-index:9999; } </style>").appendTo("head");
@@ -232,6 +233,8 @@
 		    	method: "POST",
 		    	url: "https://fabula-node.herokuapp.com/subscribe",
   				data: {
+  					username:username?username:null,
+  					password:password?password:null,
 		        	title: FabulaSysTitleSelector?FabulaSysTitleSelector:null,
 		        	link: FabulaSysLinkSelector?FabulaSysLinkSelector:null,
 		        	description: FabulaSysDescriptionSelector?FabulaSysDescriptionSelector:null,
